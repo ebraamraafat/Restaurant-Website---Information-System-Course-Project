@@ -1,0 +1,655 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");  /*لينك الفونت*/
+
+* {  /* علشان يشيل الحواف للموقع*/
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+body {
+  font-family: "Quicksand", sans-serif;
+}
+
+a {
+  text-decoration: none;     /*بيشيل اي خط تحت لينك*/
+  color: #fff;           /*لون الكلام اللي لينك*/
+}
+
+ul {                      /*home علشان يشيل النقط اللي جنب ال */
+  list-style: none; 
+}
+
+
+/* -------------------------------------------------Utility Classes ------------------------------حاجات عامة زي كلام مهم-----------*/
+.btn {
+  display: inline-block;                                     /*بتحكم في اي BTN*/
+  padding: 15px 30px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.btn-primary {                        /*الزرار اللي في ال home*/
+  border: 2px solid #fff;
+}
+
+.btn-secondary,
+.btn-third:hover {
+  color: #fff;
+  background: #383848;
+
+}
+
+.btn-primary:hover,                      /*لون الزرار لما باجي عليه*/
+.btn-secondary:hover,
+.btn-third {
+  background: #e4b95b;
+}
+
+
+.primary-text {             /*PIZZA  HOMEاللي في صفحة ال */
+  color: #fcac00;
+}
+
+/* ------------------------------------------------------------------Header Start----------------------------------------------------------- */
+header {
+  height: 100vh;
+  background: url("./img/home_bg1.jpg") center center/cover no-repeat;
+  position: relative;
+  transition: background-image 0.5s ease-in-out; /* لإضافة تأثير انتقال سلس */
+}
+
+
+/* -------------------------------- */
+#navbar {
+  display: flex;
+  align-items: center;
+  background-color: #eca48c5d;
+  height: 100px;
+  width:100%;
+}
+
+
+#logo {
+  display: flex;
+  justify-content:center ;     /*اعمل القايمة يمين*/
+  align-items: center;
+  height: 100px;
+  width:20%;
+  background-color: #ce000000;
+  
+  
+
+} 
+
+#logo img { 
+  position: absolute; 
+  width: 120px;  
+  transition: transform 0.4s;
+  
+}
+
+#logo img:hover {
+  transform: scale(1.3);       /* تأثير عند التحويم */
+}
+/* -------------------------------- */
+
+#navigation {   
+  display: flex;
+  align-items: center;
+  justify-content: center;     /*اعمل القايمة يمين*/
+  height: 100px;
+  width: 65%;
+  background-color: #12dbf600;
+
+}
+
+#navigation ul {  
+  display: flex;           /* بعمل القايمة اللي فوق جنب بعض */
+  font-size: 1.4rem;
+
+}
+
+#navigation ul li a {                /*علشان يفصل العناصر عن بعض*/
+  padding: 15px 20px;
+  font-weight: 700;
+}
+
+#navigation ul li a:hover {                       /*علشان يعمل خط تحت الكلمة*/
+  border-bottom: 2px solid #f6b221;
+}
+
+/* -------------------------------- */
+
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;     /*اعملها في النص*/
+  height: 100px;
+  width: 15%;
+  font-size: 1.4rem;
+  color:var(--light-color);
+  cursor: pointer;
+  background-color: #82aa0a00;
+
+}
+
+.icons .fas {
+  color: white;            /* تغيير اللون إلى الأبيض */
+  margin-left: 20px;       /* مسافة بين الأيقونات */
+}
+.icons div:hover{
+  color:#f6b221;
+}
+
+/* -------------------------------- */
+
+
+header .content {                     /*بتحكم في الكلام */
+  display: flex;                     /*بيخلي الكلام جنب بعض*/
+  flex-direction: column;           /*خليته عمودي */
+  align-items: center;
+  justify-content: center;
+  height: 75%;                      /*نسبة ظهورها في الشاشة*/
+}
+
+header::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;                    /*نوع الطبقة*/
+  background: rgb(0, 0, 0, 0.5);      /*علشان اعمل طبقة عازلة فوق الخلفية اللي في الHOME*/
+}
+
+header .content h1 {             /* حجم الكلام الكبير*/
+  font-size: 40px;
+  color: #fff;
+}
+
+header .content p {            /*حجم الكلام الصغير*/
+  color: #fff;
+  margin: 20px 0 40px;
+}
+
+header * {                  /*علشان يعمل كل المحتويات اللي جو ال HOMEميتأثرش ب الطبقة */
+  z-index: 10;
+}
+
+
+
+/* ------------------------------------------------------------Header End------------------------------------------------------------------- */
+
+/* -----------------------------------------------------------About Start------------------------------------------------------------------- */
+#about {        
+  height: 100vh;
+  background: #78060600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {                /*بتحكم في مساحة الكونتينر ده */
+  max-width: 1200px;               /*حجمه يصغير*/ 
+  margin: auto;
+  background-color: #ffae0000;                         /*علشان يكون في النص*/
+}
+
+/* -------------------------------- */
+
+#about .title
+{
+  text-align: center;                     /*مكانها*/
+  margin-bottom: 4rem;                     /*الفاصل بينها و بين اللي فوق و اللي تحت */
+}
+
+#about h2
+{
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: #383848;
+}
+
+#about .title p {
+  font-weight: 600;
+  font-size: 14px;
+  color: #767575;
+}
+/* -------------------------------- */
+
+#about .about-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+#about .about-content p {
+  margin-right: 3rem;
+  line-height: 1.4;   /* --------------المسافة بين الكلام------------------ */
+  color: #767575;
+  font-weight: 500;
+  font-size: 15px;
+
+}
+
+#about img {
+  max-width: 600px;
+  
+}
+
+#about .about-content a {
+  margin-top: 3rem;
+}
+/* ------------------------------------------------------------------------About End--------------------------------------------------------- */
+/* -------------------------------------------------------------------menu Section start --------------------------------------------------*/
+/* نمط قائمة الطعام */
+.menu2,
+.menu {
+  padding: 50px 50px;
+  background: url("./img/offer-background.jpg") center center/cover fixed;
+}
+.menu h2 {                   /*العوان*/
+  color: #f4f4f4;
+  margin-bottom: 4rem;
+  text-align: center;
+  font-size: 40px;
+}
+
+.menu2-container,
+.menu-container {                    /*المكان اللي فيه الطلبات*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.scroll-left, .scroll-right {
+  background-color: #ff5733;
+  border: none;
+  color: white;
+  padding: 15px;
+  border-radius: 10px; 
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-5%);
+}
+
+.scroll-left {
+  left: 10px;  /* تموضع السهم اليسار */
+}
+
+.scroll-right {
+  right: 10px;  /* تموضع السهم اليمين */
+}
+.menu2-items,
+.menu-items {                       /*اللطلبات*/
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x:hidden;       /* تمكين التمرير الأفقي */
+  scroll-behavior: smooth;     /* التمرير بسلاسة */
+  width: 80%;  /* عرض القائمة */
+}
+
+.menu2-item,
+.menu-item {
+  background: linear-gradient(to top, #dc4d3a,  #ffffff, #ffffff, #ffffff ,#ffffff);
+  flex: 0 0 auto;            /* منع العناصر من الالتفاف */
+  margin: 35px;
+  padding: 27px;
+  border-radius: 15px;                /*الحواف*/
+  width: 310px;                       /*عرضه*/
+  text-align: center;            /*مكان الكلام */
+  transition: transform 0.4s;            /*فترة التكبير*/
+}
+
+.menu2-item:hover,
+.menu-item:hover {
+  transform: scale(1.05);       /* تأثير عند التحويم */
+}
+
+.menu2-item img ,
+.menu-item img {
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 40px;
+}
+
+.menu2-item p,
+.menu-item p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.menu2-item span ,
+.menu-item span {
+  font-size: 23px;
+  color: #ff5733;
+  display: block;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.menu2-item button,
+.menu-item button {
+  background-color: #ff5733;
+  padding: 15px 18px;
+  border: none;
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: transform 0.4s;
+}
+
+.menu2-item button:hover,
+.menu-item button:hover {
+  transform: scale(1.1);       /* تأثير عند التحويم */
+}
+
+.menu2-item .qty,
+.menu-item .qty {
+  width: 80px;
+  height: 50px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  font-size: 1.8rem;
+  margin-right: 15px;
+  padding: 1rem;
+  margin-top: 1rem;
+}  
+
+.menu2-item .qty:focus ,
+.menu-item .qty:focus {
+  outline: none;
+  border-color: #ff5733; /* تغيير لون الحد عند التركيز */
+}
+
+/* ----------------------------------------------------------------------Menu Section End------------------------------------------------------ */
+/* -------------------------------------------------------------------Daytime section Start ----------------------------------------------------*/
+#daytime {
+  background: url("./img/daytime_bg.jpg") center center/cover fixed no-repeat ;
+  color: #fff;
+  text-align: center;
+}
+
+#daytime .daytime-items {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 40vh;               /*السمك*/
+}
+
+#daytime .daytime-items h3 {
+  font-size: 32px;
+  margin: 20px 0 10px;
+}
+
+#daytime .daytime-items p {
+  font-weight: 500;
+}
+/* -----------------------------------------------------------------------Daytime section End -------------------------------------------------*/
+
+
+/*----------------------------------------------------------------------- Contact Section start -----------------------------------------------*/
+#contact {
+  background: #f4f2ed;
+  padding: 5rem ;
+}
+
+#contact .container {                   /*الحجم الكلي*/
+  max-width: 900px;
+}
+
+#contact .contact-content {                    /*اللقايمة اللي علي الشمال*/
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#contact .contact-info {
+  width: 50%;
+}
+
+#contact .contact-info div {
+  margin: 30px 0;
+  line-height: 1.7;
+}
+
+#contact .contact-info h3 {
+  font-size: 28px;
+  color: #383848;
+  margin-bottom: 10px;
+}
+
+#contact .contact-info p {
+  color: #9a9a9a;
+}
+
+#contact .contact-info p i {             /*المكان و التلفون و الرسالة*/
+  color: #e4b95b;
+  margin-right: 6px;
+}
+
+#contact .contact-info a i {             /*اللوجو*/
+  color: #fff;
+  background: #383848;
+  padding: 10px;
+  font-size: 25px;
+  border-radius: 40%;
+}
+
+#contact .contact-info a i:hover {
+  background-color: #e4b95b;
+  color: #ffffff;
+}
+
+form {
+  width: 50%;
+}
+/*----------------------------------------------------*/
+form input,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 20px 15px;
+  margin: 20px 0;
+  border: none;                      /*الاستروك قبل الضغط */
+  background-color: #e3e2dd;
+}
+
+form input:focus,
+textarea:focus {
+  outline: none;              /*الاستروك بعد الضغط*/
+}
+
+form button {
+  color: #fff;
+}
+
+/* -------------------------------------------------------------------------Contact Section End--------------------------------------------- */
+/*---------------------------------------------------------------------------- Footer Start------------------------------------------------- */
+#footer {
+  background-color: #383848;
+  text-align: center;
+  color: #fff;
+  padding: 15px 0;
+  font-size: 14px;
+}
+/* --------------------------------------------------------------------------------------Footer End----------------------------------------- */
+
+/* Responsiveness */
+/* -----------------------------------------------------Medium Screen + Tablet---------------------------------------------------------------- */
+@media (max-width: 1400px) {
+  #navbar img {
+    margin-left: 20px;
+  }
+
+  nav ul {
+    margin-right: 20px;
+  }
+
+  nav ul li a {
+    padding: 10px;
+  }
+
+  /*-----------------*/
+  
+  header .content h1 {
+    font-size: 28px;
+  }
+
+  #about {
+    height: auto;
+    padding: 5rem 1rem;
+  }
+
+  #about .about-content p {
+    margin-right: 2rem;
+  }
+
+  #about img {
+    width: 400px;
+    height: 80%;
+  }
+  /*----------------------*/
+
+  
+  #menu .menu-items {
+    display: flex;
+  }
+  #menu .menu-items .menu-item {
+    width: calc(35% - 80px); /* تصغير حجم طلبات الطعام */
+    margin: 10px; /* إضافة مسافة بين العناصر */
+  }
+  #menu .menu-items .menu-item button {                /*زرار الاضافة*/
+    padding: 20px 10px;              
+    margin-top: 10px;
+   }
+
+  #contact .contact-content {
+    flex-direction: column;
+  }
+
+  /*--------------------------------------------------------------------- Mobile Devices ----------------------------------------------------*/
+  @media (max-width: 800px) {
+    #navbar {
+      display: flex;
+    }
+    #logo img { 
+      width: 80px;  
+    }
+
+    #navigation ul {  
+      font-size: 0.8rem;
+    }
+    #navigation ul li a {                /*علشان يفصل العناصر عن بعض*/
+      padding: 8px;
+      font-weight: 700;
+    }
+    .icons {
+      display: flex;
+      font-size: 0.8rem;
+      margin-right: 17PX;
+
+    }
+
+    .btn {                                 
+      padding: 5px 15px;
+      font-size: 15px;
+
+    }
+   
+    /*--------*/
+    header .content h1 {
+      font-size: 22px;
+    }
+
+    header .content p {
+      font-size: 11px;
+    }
+
+    #about img {
+      width: 350px;
+    }
+    #about .about-content {
+      flex-direction: column;
+    }
+
+    #about .about-content P{
+      font-size: 11px;
+    }
+
+    #about .about-content a {
+      margin: 2rem 0;
+      font-size: 11px;
+    }
+
+    /*-----------------------------------------------------*/
+
+    .menu h2 {                   /*العوان*/
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+
+    }
+    
+
+    #menu .menu-items {
+      display: flex;
+    }
+    .menu {
+      padding: 0.5px 0.5px;
+    }
+    #menu .menu-items .menu-item {
+     
+      margin:76.5px; /* إضافة مسافة بين العناصر */
+      padding: px 40px;
+      border-radius: 20px;                /*الحواف*/
+      width: 220px; 
+    }
+    #menu .menu-items .menu-item button {                /*زرار الاضافة*/
+      padding: 14px 10px;              
+      margin-top: 20px;
+     }
+
+     .menu-item .qty {
+      width: 80px;
+      height: 50px;
+      border: 2px solid #ccc;
+      border-radius: 20px;
+      font-size: 1.8rem;
+      margin-right: 2px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .scroll-left, .scroll-right {
+      border-radius: 15px; 
+    }
+    .scroll-left {
+      left: 0.0000000009px;  /* تموضع السهم اليسار */
+    }
+    
+    .scroll-right {
+      right: 0.0000000009px;  /* تموضع السهم اليمين */
+    }
+    /*----------------------------------------------*/
+    #daytime .daytime-items {
+      display: block;
+      height: auto;
+      padding: 30px 0;
+    }
+
+    #daytime .daytime-items .daytime-item {
+      margin-top: 20px;
+    }
+
+    #contact .contact-info,
+    form {
+      width: 100%;
+    }
+  }
+}

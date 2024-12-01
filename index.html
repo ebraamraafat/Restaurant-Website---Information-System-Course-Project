@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   <!-- للتغيير مع حجم الشاشة -->
+    <title>Pizza</title>
+    <!-- Style Link -->
+    <link rel="stylesheet" href="./style.css">
+    
+    <!-- Fontawsome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="./logo.ico">
+</head>
+
+<body>
+    <!------------------------------------------------------ Header Start ---------------------------------------------------------------->
+    <header>
+        <div id="navbar">
+            <div id="logo">
+                <img src="./img/logo.png" alt="Food Lover Logo">
+            </div>
+            <div id="navigation">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="icons">
+                <a href="./sign in/login.html"
+                    target="_blank"> <div id="user-btn" class="fas fa-user"></div></a>
+                <div id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h1>Welcome To <span class="primary-text"> Pizza </span> Restaurant</h1>
+            <p> Here you can find Most delicacies food in the world </p>
+            <a href="#contact" class="btn btn-primary">Book a Table</a>
+        </div>
+    </header>
+    <!------------------------------------------------------------ Header End ------------------------------------------------------------->
+    <!------------------------------------------------------------ main Start -------------------------------------------------------->
+    <main>
+        <section id="about">
+            <div class="container">                              <!-- كونتينر علشان المحتوي يكون في النص* -->
+
+                <div class="title">
+                    
+                    <h1>Welcome, <span id="userFirstName">Guest</span>!</h1>
+                    <h2>The Pizza history</h2>
+                    <p>More than 25+ years of experience</p>
+                </div>
+                
+                <div class="about-content">
+                    <div>
+                        <p>
+                            our restaurant has been serving the most delicious pizzas made from the freshest 
+                            ingredients. We started as a small shop in the heart of the city, with the core
+                            idea of providing a dining experience focused on quality and flavor. 
+                        </p>
+                            <br>
+                        <p>
+                            Over the years, we have expanded our menu to include a wide variety of traditional and contemporary
+                            pizzas that cater to all tastes. We believe that pizza is not just a meal; it’s a shared experience 
+                            that brings family and friends together.
+                        </p>
+                            <br>
+                        <p>
+                            We have invested in enhancing our expertise by learning from our customers and listening to their 
+                            feedback. Today, we are proud to be one of the most popular pizza restaurants in 
+                            the area, attracting visitors from all around to enjoy a delicious meal and excellent service.
+                        </p>
+                            <br>
+                        <p>
+                            We continually work on developing our recipes and the customer experience to ensure your
+                            complete satisfaction. Join us for an unforgettable dining experience!
+                        </p>
+                        <a href="#" class="btn btn-secondary">LEARN MORE</a>
+                    </div>
+                    <img src="./img/about_img.png" alt="Pizza">
+                </div>
+                
+            </div>
+        </section>
+        <!------------------------------------------------------- About Section End ------------------------------------------------------>
+        <!------------------------------------------------------ menu Section Start ---------------------------------------------------->
+        <section class="menu" id="menu">
+            <h2>Our Menu</h2>
+            <div class="menu-container">
+                <button class="scroll-left" onclick="scrollLeft9999()">&#8592;</button> <!-- سهم لليسار -->
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <img src="./img3/1.jpg" alt="Mexican Fiesta">
+                        <p>Mexican Fiesta</p>
+                        <span>EGP 230</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/2.jpg" alt="Something Meaty">
+                        <p>Something Meaty</p>
+                        <span>EGP 295</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/3.jpg" alt="BBQ Chicken">
+                        <p>BBQ Chicken</p>
+                        <span>EGP 270</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/4.jpg" alt="Chicken Tikka">
+                        <p>Chicken Tikka</p>
+                        <span>EGP 280</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/5.jpg" alt="Chicken Cram-Decker®">
+                        <p>Chicken Cram-Decker®</p>
+                        <span>EGP 400</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/6.jpg" alt="Meaty Cheezy Triple-Decker®">
+                        <p>Meaty Cheezy Triple-Decker®</p>
+                        <span>EGP 400</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/7.jpg" alt="Real Deal Triple Decker® Chicken">
+                        <p>Real Deal Triple Decker® Chicken</p>
+                        <span>EGP 200</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/8.jpg" alt="Real Deal Triple Decker® Meat">
+                        <p>Real Deal Triple Decker® Meat</p>
+                        <span>EGP 200</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/9.png" alt="Chicken Filla®">
+                        <p>Chicken Filla®</p>
+                        <span>EGP 350</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/10.png" alt="Meaty Filla®">
+                        <p>Meaty Filla®</p>
+                        <span>EGP 325</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/11.jpg" alt="Cheezy Jalapeño">
+                        <p>Cheezy Jalapeño</p>
+                        <span>EGP 240</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/12.png" alt="Cheezy Chicken & Mushroom">
+                        <p>Cheezy Chicken & Mushroom</p>
+                        <span>EGP 300</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/13.jpg" alt="Cheezy Beef & Onion">
+                        <p>Cheezy Beef & Onion</p>
+                        <span>EGP 290</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/14.jpg" alt="Margherita">
+                        <p>Margherita</p>
+                        <span>EGP 185</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/15.jpg" alt="Original Veggie">
+                        <p>Original Veggie</p>
+                        <span>EGP 240</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/16.jpg" alt="4 Cheese">
+                        <p>4 Cheese</p>
+                        <span>EGP 290</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/17.jpg" alt="Creamy Veg">
+                        <p>Creamy Veg</p>
+                        <span>EGP 200</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/18.jpg" alt="Chicken & Mushroom">
+                        <p>Chicken & Mushroom</p>
+                        <span>EGP 285</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/19.jpg" alt="Sweet & Sour Chicken">
+                        <p>Sweet & Sour Chicken</p>
+                        <span>EGP 280</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/20.jpg" alt="BBQ Chicken">
+                        <p>BBQ Chicken</p>
+                        <span>EGP 270</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/21.jpg" alt="Chicken Tikka">
+                        <p>Chicken Tikka/p>
+                        <span>EGP 280</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/22.jpg" alt="Club">
+                        <p>Club</p>
+                        <span>EGP 310</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/23.jpg" alt="Mexican Fiesta">
+                        <p>Mexican Fiesta</p>
+                        <span>EGP 230</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <img src="./img3/24.jpg" alt="Something Meaty">
+                        <p>Something Meaty</p>
+                        <span>EGP 295</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    
+                </div>
+                <button class="scroll-right" onclick="scrollRight999()">&#8594;</button> <!-- سهم لليمين -->
+
+            </div>
+        </section>
+        <section class="menu" id="menu2">
+            <div class="menu2-container">
+                <button class="scroll-left" onclick="scrollLeft2()">&#8592;</button> <!-- سهم لليسار -->
+                <div class="menu2-items">
+                    <div class="menu2-item">
+                        <img src="./img2/1.jpg" alt="AQUAFINA">
+                        <p>AQUAFINA</p>
+                        <span>EGP 5</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu2-item">
+                        <img src="./img2/2.jpg" alt="pepsi">
+                        <p>pepsi</p>
+                        <span>EGP 15</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu2-item">
+                        <img src="./img2/3.jpg" alt="7 UP">
+                        <p>7 UP</p>
+                        <span>EGP 15</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu2-item">
+                        <img src="./img2/4.jpg" alt="pepsi diet">
+                        <p>pepsi diet</p>
+                        <span>EGP 15</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                    <div class="menu2-item">
+                        <img src="./img2/5.jpg" alt="Mirinda">
+                        <p>Mirinda</p>
+                        <span>EGP 15</span>
+                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
+                        <button>Add to Cart</button>
+                    </div>
+                <button class="scroll-right" onclick="scrollRight2()">&#8594;</button> <!-- سهم لليمين -->
+            </div>
+        </section>
+
+        <!------------------------------------------------------ menu Section End ------------------------------------------------------>
+        <!----------------------------------------------------- Daytime section start----------------------------------------------------->
+        <section id="daytime">
+                <div class="daytime-items">
+                    <div class="daytime-item">
+                        <img src="./img/breckfastIcon.png" alt="Breakfast">
+                        <h3>Breakfast</h3>
+                        <p>8:00 am to 10:00 am</p>
+                    </div>
+                    <div class="daytime-item">
+                        <img src="./img/lunchIcon.png" alt="Lunch">
+                        <h3>Lunch</h3>
+                        <p>4:00 pm to 7:00 pm</p>
+                    </div>
+                    <div class="daytime-item">
+                        <img src="./img/dinnerIcon.png" alt="Dinner">
+                        <h3>Dinner</h3>
+                        <p>9:00 pm to 1:00 Am</p>
+                    </div>
+                    <div class="daytime-item">
+                        <img src="./img/dessertIcon.png" alt="dessert">
+                        <h3>Dessert</h3>
+                        <p>All day</p>
+                    </div>
+                </div>
+        </section>
+        <!-------------------------------------------------------------- Daytime section end---------------------------------------------------->
+        <!------------------------------------------------------------ Contact Section Start --------------------------------------------------->
+        <section id="contact">
+            <div class="container">
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div>
+                            <h3>ADDRESS</h3>
+                            <p><i class="fa-solid fa-location-dot"></i> Aleasima Aladaria, Cairo, Egypt</p>
+                            <p><i class="fa-solid fa-phone"></i> Phone: 123456789</p>
+                            <p><i class="fa-regular fa-envelope"></i> support@Pizza.com</p>
+                        </div>
+                        <div>
+                            <h3>WORKING HOURS</h3>
+                            <p>8:00 am to 11:00 pm on Weekdays</p>
+                            <p>11:00 am to 1:00 Am on Weekends</p>
+                        </div>
+                        <div>
+                            <h3>FOLLOW US</h3>
+                            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <form action="contact_us.php" method="POST">
+                        <input type="text"  id="name" placeholder="Full Name" name="cname" required>
+                        <input type="email"  id="email" placeholder="Email Address" name="cemail" required>
+                        <textarea  id="message" cols="30" rows="5" placeholder="Message" name="cmessage"></textarea>
+                        <button type="submit" class="btn btn-third">SEND MESSAGE</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </section>
+        <!--------------------------------------------------------- Contact Section End -------------------------------------------------------->
+    </main>
+    <!----------------------------------------------------------------- main end -------------------------------------------------------------->
+    <!---------------------------------------------------------------- footer Start -------------------------------------------------------------->
+    <footer id="footer">
+        <p> made by : <b> <a href="https://www.facebook.com/ali.fadloun.1?locale=ar_AR "
+                    target="_blank"> ALI FADLOUN</a> </b></p>
+    </footer>
+    <!---------------------------------------------------------------- footer end -------------------------------------------------------------->
+
+
+
+
+<script src="script.js"></script>
+</body>
+
+</html>
