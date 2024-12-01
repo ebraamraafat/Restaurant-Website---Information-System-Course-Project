@@ -19,7 +19,7 @@ The website is designed to enhance the dining experience by providing a simple y
 ## Technologies Used
 
 - **Frontend**: HTML, CSS, JavaScript
-- **Backend**: MySQL and XAMPP for database management
+- **Backend**: PHP , MySQL and XAMPP for database management
 
 ## Visuals
 
