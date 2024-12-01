@@ -1,40 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Website - Information System Course Project</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>Restaurant Website - Information System Course Project</h1>
-    </header>
+# Restaurant Website - Information System Course Project
 
-    <section class="description">
-        <h2>Project Overview</h2>
-        <p>This project is a dynamic restaurant website developed as part of an Information System course. It features a modern and responsive design, offering users seamless interaction and functionality. The website includes a registration page integrated with a MySQL database using XAMPP.</p>
-    </section>
+This project is a dynamic **Restaurant Website** developed as part of an **Information System course**. It features a modern and responsive design, offering users a seamless interaction and functionality. The website includes a registration page integrated with a MySQL database using **XAMPP**.
 
-    <section class="features">
-        <h2>Key Features</h2>
-        <ul>
-            <li>User registration functionality</li>
-            <li>Integration with a MySQL database (<code>myrestaurant</code>) and table (<code>registration</code>)</li>
-            <li>Designed to ensure a user-friendly experience</li>
-        </ul>
-    </section>
+## Project Overview
 
-    <section class="technologies">
-        <h2>Technologies Used</h2>
-        <ul>
-            <li>HTML, CSS, JavaScript</li>
-            <li>MySQL and XAMPP for backend and database management</li>
-        </ul>
-    </section>
+The website is designed to enhance the dining experience by providing a simple yet functional interface for users to register and interact with the restaurant. It is built using modern web technologies, and the back-end is supported by **MySQL** and **XAMPP** for database management.
 
-    <footer>
-        <p>Feel free to explore and contribute!</p>
-    </footer>
-</body>
-</html>
+![Project Screenshot](path_to_screenshot_image.png)
+
+## Key Features
+
+- **User Registration**: Users can register on the website, which is integrated with a MySQL database.
+- **Database Integration**: The project uses a MySQL database named `myrestaurant` and a `registration` table to store user data.
+- **Responsive Design**: The website is mobile-friendly and adapts well to various screen sizes.
+
+## Technologies Used
+
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: MySQL and XAMPP for database management
+
+## Installation
+
+To run the project locally, follow these steps:
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/restaurant-website.git
+    ```
+
+2. Set up XAMPP and MySQL:
+    - Install XAMPP from [here](https://www.apachefriends.org/index.html).
+    - Start the Apache and MySQL services.
+
+3. Create the database:
+    - Open phpMyAdmin (available via XAMPP).
+    - Create a new database named `myrestaurant`.
+    - Run the following SQL script to create the `registration` table:
+      ```sql
+      CREATE TABLE registration (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(100),
+          email VARCHAR(100),
+          password VARCHAR(100)
+      );
+      ```
+
+4. Upload the website files to the XAMPP `htdocs` directory.
+
+5. Open the website in your browser:
+    - Visit `http://localhost/restaurant-website`.
+
+## Visuals
+
+Below is a screenshot of the website:
+
+![Website Screenshot](path_to_screenshot_image.png)
+
+## Contribution
+
+Feel free to explore the code and contribute! If you have any suggestions or improvements, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
