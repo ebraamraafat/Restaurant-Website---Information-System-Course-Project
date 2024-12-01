@@ -14,6 +14,28 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="./logo.ico">
+    <script>
+        function loadUserName() {
+            fetch('get_user.php')
+                .then(response => response.json())
+                .then(data => {
+                    const welcomeMessage = document.getElementById('welcome-message');
+                    const welcomeMessage2 = document.getElementById('welcome-message-2');
+                    if (data.name) {
+                        welcomeMessage.innerText = `Welcome ${data.name}!`;
+                        welcomeMessage2.innerText = `${data.name}`;
+                    } else {
+                        welcomeMessage.innerText = 'Please log in.';
+                        welcomeMessage2.innerText = 'Guest';
+                    }
+                })
+                .catch(error => console.error('Error fetching user data:', error));
+        }
+
+        window.onload = loadUserName; // Load user name when the page loads
+
+        
+    </script>
 </head>
 
 <body>
@@ -34,11 +56,15 @@
             <div class="icons">
                 <a href="./sign in/login.html"
                     target="_blank"> <div id="user-btn" class="fas fa-user"></div></a>
-                <div id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
+                    <p style="color: aliceblue; padding-left: 10px;" id="welcome-message-2">Loading...</p>
+
+                <div style="padding-right: 10px;" id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
             </div>
         </div>
 
         <div class="content">
+            <h1 id="welcome-message">Loading...</h1>
+
             <h1>Welcome To <span class="primary-text"> Pizza </span> Restaurant</h1>
             <p> Here you can find Most delicacies food in the world </p>
             <a href="#contact" class="btn btn-primary">Book a Table</a>
@@ -51,8 +77,6 @@
             <div class="container">                              <!-- كونتينر علشان المحتوي يكون في النص* -->
 
                 <div class="title">
-                    
-                    <h1>Welcome, <span id="userFirstName">Guest</span>!</h1>
                     <h2>The Pizza history</h2>
                     <p>More than 25+ years of experience</p>
                 </div>
@@ -386,6 +410,7 @@
 
 
 <script src="script.js"></script>
+
 </body>
 
 </html>
