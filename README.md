@@ -34,4 +34,12 @@ Feel free to explore the code and contribute! If you have any suggestions or imp
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Modern Academy License 
+
+## Team Members
+
+This project was developed as part of the **Information System course** by the following team members:
+
+- **Ebraam Raafat Hanna** (Code: 4230410)
+- **Ali Ahmed Ali Fadloun** (Code: 4230170)
+- **Mohamed Ahmed Mohamed Ahmed Onsy** (Code: 4230166)
