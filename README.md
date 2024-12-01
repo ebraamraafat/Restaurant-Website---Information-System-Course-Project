@@ -1,3 +1,6 @@
+
+![Project Screenshot](SS\Screenshot 2024-12-01 153504.png)
+
 # Restaurant Website - Information System Course Project
 
 This project is a dynamic **Restaurant Website** developed as part of an **Information System course**. It features a modern and responsive design, offering users a seamless interaction and functionality. The website includes a registration page integrated with a MySQL database using **XAMPP**.
@@ -6,7 +9,7 @@ This project is a dynamic **Restaurant Website** developed as part of an **Infor
 
 The website is designed to enhance the dining experience by providing a simple yet functional interface for users to register and interact with the restaurant. It is built using modern web technologies, and the back-end is supported by **MySQL** and **XAMPP** for database management.
 
-![Project Screenshot](path_to_screenshot_image.png)
+![Project Screenshot](SS\Screenshot 2024-12-01 152800.png)
 
 ## Key Features
 
@@ -23,8 +26,10 @@ The website is designed to enhance the dining experience by providing a simple y
 ## Visuals
 
 Below is a screenshot of the website:
+![Project Screenshot](SS\Screenshot 2024-12-01 152800.png)
+![Website Screenshot](SS\Screenshot 2024-12-01 152725.png)
+![Website Screenshot](SS\Screenshot 2024-12-01 152824.png)
 
-![Website Screenshot](path_to_screenshot_image.png)
 
 ## Contribution
 
