@@ -19,36 +19,6 @@ The website is designed to enhance the dining experience by providing a simple y
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: MySQL and XAMPP for database management
 
-## Installation
-
-To run the project locally, follow these steps:
-
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/restaurant-website.git
-    ```
-
-2. Set up XAMPP and MySQL:
-    - Install XAMPP from [here](https://www.apachefriends.org/index.html).
-    - Start the Apache and MySQL services.
-
-3. Create the database:
-    - Open phpMyAdmin (available via XAMPP).
-    - Create a new database named `myrestaurant`.
-    - Run the following SQL script to create the `registration` table:
-      ```sql
-      CREATE TABLE registration (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          name VARCHAR(100),
-          email VARCHAR(100),
-          password VARCHAR(100)
-      );
-      ```
-
-4. Upload the website files to the XAMPP `htdocs` directory.
-
-5. Open the website in your browser:
-    - Visit `http://localhost/restaurant-website`.
 
 ## Visuals
 
