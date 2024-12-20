@@ -74,4 +74,3 @@ document.querySelector('.scroll-left2').addEventListener('click', scrollLeft2);
 document.querySelector('.scroll-right2').addEventListener('click', scrollRight2);
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
-   

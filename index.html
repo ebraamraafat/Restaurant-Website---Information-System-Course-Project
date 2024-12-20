@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">   <!-- للتغيير مع حجم الشاشة -->
     <title>Pizza</title>
     <!-- Style Link -->
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
     
     <!-- Fontawsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
@@ -14,28 +14,231 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="./logo.ico">
+
+
     <script>
-        function loadUserName() {
-            fetch('get_user.php')
-                .then(response => response.json())
-                .then(data => {
-                    const welcomeMessage = document.getElementById('welcome-message');
-                    const welcomeMessage2 = document.getElementById('welcome-message-2');
-                    if (data.name) {
-                        welcomeMessage.innerText = `Welcome ${data.name}!`;
-                        welcomeMessage2.innerText = `${data.name}`;
-                    } else {
-                        welcomeMessage.innerText = 'Please log in.';
-                        welcomeMessage2.innerText = 'Guest';
-                    }
-                })
-                .catch(error => console.error('Error fetching user data:', error));
+    function addToCart(button) {
+        const menuItem = button.closest('.menu-item') || button.closest('.menu2-item');
+        const cartPopup = document.getElementById('cartPopup');
+    
+        const itemName = menuItem.querySelector('.item-name').textContent;
+        const qtyInput = menuItem.querySelector('.qty');
+        const quantity = parseInt(qtyInput.value);
+        const itemPrice = menuItem.querySelector('.item-price').textContent.replace('EGP', '').trim();
+        const itemImage = menuItem.querySelector('img').src;
+    
+        if (quantity <= 0 || isNaN(quantity)) {
+            alert("Please select a valid quantity!");
+            return;
+        }
+    
+        const cartItems = document.getElementById('cartItems');
+        const newCartItem = document.createElement('li');
+    
+        const productImage = document.createElement('img');
+        productImage.src = itemImage;
+        productImage.alt = itemName;
+        productImage.style.width = '50px';
+        productImage.style.height = '50px';
+    
+        const cartItemText = document.createElement('span');
+        cartItemText.textContent = `${itemName} - Quantity: ${quantity} - Price: EGP ${itemPrice * quantity}`;
+    
+        // Create delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.style.marginLeft = '40px';
+        deleteButton.onclick = function () {
+            cartItems.removeChild(newCartItem); // Remove the item from the cart
+            updateCartCount(); // Update item count
+            updateTotalPrice(); // Update total price
+        };
+    
+        newCartItem.appendChild(productImage);
+        newCartItem.appendChild(cartItemText);
+        newCartItem.appendChild(deleteButton);
+        cartItems.appendChild(newCartItem);
+    
+        if (cartItems.children.length > 0) {
+            cartPopup.style.display = 'block';
+        }
+    
+        updateCartCount();  // Update item count after adding an item
+        updateTotalPrice(); // Update total price after adding an item
+    }
+    
+    function updateTotalPrice() {
+        const cartItems = document.getElementById('cartItems');
+        let totalPrice = 0;
+    
+        for (let item of cartItems.children) {
+            const priceText = item.querySelector('span').textContent;
+            const priceMatch = priceText.match(/EGP (\d+)/);
+            if (priceMatch) {
+                totalPrice += parseFloat(priceMatch[1]);
+            }
+        }
+    
+        const totalPriceElement = document.getElementById('totalPrice');
+        totalPriceElement.textContent = `Total Price: EGP ${totalPrice}`;
+    
+        // Update the hidden input with the total price
+        document.getElementById('totalPriceInput').value = totalPrice;
+    
+        return totalPrice;
+    }
+    
+    document.getElementById('sendMessageButton').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default form submission
+    
+        // Ensure the total price and item count are updated
+        updateTotalPrice();
+        updateCartCount();
+    
+        // Get the form data
+        const formData = new FormData(document.getElementById('contactForm'));
+    
+        // Debugging: Log the form data to confirm values
+        console.log('Form data being sent:', Object.fromEntries(formData));
+    
+        // Send the form data to the server
+        fetch('contact_us.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = "index.html"; // Redirect on success
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+    
+    function updateCartCount() {
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cart-btn').querySelector('span');
+        const itemCount = cartItems.children.length;
+    
+        cartCount.textContent = `(${itemCount})`;
+    
+        // Update the hidden input field with the item count
+        document.getElementById('itemCountInput').value = itemCount;
+    
+        // Debugging: Log the item count
+        console.log('Item count:', itemCount);
+    }
+    
+    function toggleCart() {
+        const cartPopup = document.getElementById('cartPopup');
+    
+        // Toggle cart visibility
+        if (cartPopup.style.display === 'none' || cartPopup.style.display === '') {
+            cartPopup.style.display = 'block';
+        } else {
+            cartPopup.style.display = 'none';
+        }
+    }
+    
+    function loadUserName() {
+    fetch('get_user.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Fetched user data:', data);
+            if (data.name) {
+                document.getElementById('welcome-message').innerText = `Welcome ${data.name}!`;
+                document.getElementById('welcome-message-2').innerText = data.name;
+            } else {
+                document.getElementById('welcome-message').innerText = 'Please log in.';
+                document.getElementById('welcome-message-2').innerText = 'Guest';
+            }
+        })
+        .catch(error => console.error('Error fetching user data:', error));
+}
+
+window.onload = loadUserName;
+
+
+    
+    </script>
+    <style>
+
+        .cart-container {
+        position: relative;
+        top: -2px;
+        right: 20px;
+        z-index: 1000;
         }
 
-        window.onload = loadUserName; // Load user name when the page loads
+        .cart-icon {
+        background-color: #ff5733;
+        color: white;
+        font-size: 20px;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        }
 
-        
-    </script>
+        .cart-popup {
+        position: absolute;
+        top: 40px;
+        right: 0;
+        width: 350px;
+        background-color: rgb(244, 219, 219);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        display: none;
+        flex-direction: column;
+        }
+
+        .cart-popup h3 {
+        margin-bottom: 20px;
+        }
+
+        .cart-popup ul {
+        list-style: none;
+        padding: 0;
+        }
+
+        .cart-popup ul li {
+        margin-bottom: 10px;
+        }
+
+        .cart-popup button {
+        margin-top: 20px;
+        background-color: #ff5733;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        }
+
+        .cart-popup button:hover {
+        background-color: #e64a19;
+        }
+
+        #cartItems li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        }
+
+        #cartItems li img {
+        margin-right: 11px; /* مسافة بين الصورة والنص */
+        }
+
+
+
+
+    </style>
 </head>
 
 <body>
@@ -48,27 +251,43 @@
             <div id="navigation">
                 <ul>
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#about">Abaaaaaaout</a></li>
+                    <li><a href="#about">About</a></li>
                     <li><a href="#menu">Menu</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="logout.php">Logout</a></li>
                 </ul>
             </div>
             <div class="icons">
                 <a href="./sign in/login.html"
                     target="_blank"> <div id="user-btn" class="fas fa-user"></div></a>
                     <p style="color: aliceblue; padding-left: 10px;" id="welcome-message-2">Loading...</p>
-
-                <div style="padding-right: 10px;" id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
             </div>
+            
+            <div class="cart-container">
+                <button class="cart-icon" onclick="toggleCart()">
+                    <div id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
+                </button>
+                <div class="cart-popup" id="cartPopup">
+                    <h3>Cart</h3>
+                    <ul id="cartItems"></ul>
+                    <hr id="cartDivider"> <!-- إضافة خط بين العناصر والسعر الإجمالي -->
+                    <p id="totalPrice">Total Price: EGP 0</p> <!-- عنصر لعرض السعر الإجمالي -->
+                    <a href="#contact">
+                        <button onclick="checkout()">Done</button>
+                    </a>
+                    
+                </div>
+            </div>
+
         </div>
 
         <div class="content">
+            <p id="welcome-message-2">Loading...</p>
             <h1 id="welcome-message">Loading...</h1>
+
 
             <h1>Welcome To <span class="primary-text"> Pizza </span> Restaurant</h1>
             <p> Here you can find Most delicacies food in the world </p>
-            <a href="#contact" class="btn btn-primary">Book a Table</a>
+            <a href="#menu" class="btn btn-primary">Book a Table</a>
         </div>
     </header>
     <!------------------------------------------------------------ Header End ------------------------------------------------------------->
@@ -122,171 +341,172 @@
                 <div class="menu-items">
                     <div class="menu-item">
                         <img src="./img3/1.jpg" alt="Mexican Fiesta">
-                        <p>Mexican Fiesta</p>
-                        <span>EGP 230</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Mexican Fiesta</p>
+                        <span class="item-price">EGP 230</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
+                    
                     <div class="menu-item">
                         <img src="./img3/2.jpg" alt="Something Meaty">
-                        <p>Something Meaty</p>
-                        <span>EGP 295</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Something Meaty</p>
+                        <span class="item-price">EGP 295</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/3.jpg" alt="BBQ Chicken">
-                        <p>BBQ Chicken</p>
-                        <span>EGP 270</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">BBQ Chicken</p>
+                        <span class="item-price">EGP 270</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/4.jpg" alt="Chicken Tikka">
-                        <p>Chicken Tikka</p>
-                        <span>EGP 280</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Chicken Tikka</p>
+                        <span class="item-price">EGP 280</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/5.jpg" alt="Chicken Cram-Decker®">
-                        <p>Chicken Cram-Decker®</p>
-                        <span>EGP 400</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Chicken Cram-Decker®</p>
+                        <span class="item-price">EGP 400</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/6.jpg" alt="Meaty Cheezy Triple-Decker®">
-                        <p>Meaty Cheezy Triple-Decker®</p>
-                        <span>EGP 400</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Meaty Cheezy Triple-Decker®</p>
+                        <span class="item-price">EGP 400</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>n>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/7.jpg" alt="Real Deal Triple Decker® Chicken">
-                        <p>Real Deal Triple Decker® Chicken</p>
-                        <span>EGP 200</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Real Deal Triple Decker® Chicken</p>
+                        <span class="item-price">EGP 200</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/8.jpg" alt="Real Deal Triple Decker® Meat">
-                        <p>Real Deal Triple Decker® Meat</p>
-                        <span>EGP 200</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Real Deal Triple Decker® Meat</p>
+                        <span class="item-price">EGP 200</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/9.png" alt="Chicken Filla®">
-                        <p>Chicken Filla®</p>
-                        <span>EGP 350</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Chicken Filla®</p>
+                        <span class="item-price">EGP 350</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/10.png" alt="Meaty Filla®">
-                        <p>Meaty Filla®</p>
-                        <span>EGP 325</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Meaty Filla®</p>
+                        <span class="item-price">EGP 325</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/11.jpg" alt="Cheezy Jalapeño">
-                        <p>Cheezy Jalapeño</p>
-                        <span>EGP 240</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Cheezy Jalapeño</p>
+                        <span class="item-price">EGP 240</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/12.png" alt="Cheezy Chicken & Mushroom">
-                        <p>Cheezy Chicken & Mushroom</p>
-                        <span>EGP 300</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Cheezy Chicken & Mushroom</p>
+                        <span class="item-price">EGP 300</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/13.jpg" alt="Cheezy Beef & Onion">
-                        <p>Cheezy Beef & Onion</p>
-                        <span>EGP 290</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Cheezy Beef & Onion</p>
+                        <span class="item-price">EGP 290</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/14.jpg" alt="Margherita">
-                        <p>Margherita</p>
-                        <span>EGP 185</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Margherita</p>
+                        <span class="item-price">EGP 185</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/15.jpg" alt="Original Veggie">
-                        <p>Original Veggie</p>
-                        <span>EGP 240</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Original Veggie</p>
+                        <span class="item-price">EGP 240</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/16.jpg" alt="4 Cheese">
-                        <p>4 Cheese</p>
-                        <span>EGP 290</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">4 Cheese</p>
+                        <span class="item-price">EGP 290</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/17.jpg" alt="Creamy Veg">
-                        <p>Creamy Veg</p>
-                        <span>EGP 200</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Creamy Veg</p>
+                        <span class="item-price">EGP 200</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/18.jpg" alt="Chicken & Mushroom">
-                        <p>Chicken & Mushroom</p>
-                        <span>EGP 285</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Chicken & Mushroom</p>
+                        <span class="item-price">EGP 285</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/19.jpg" alt="Sweet & Sour Chicken">
-                        <p>Sweet & Sour Chicken</p>
-                        <span>EGP 280</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Sweet & Sour Chicken</p>
+                        <span class="item-price">EGP 280</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/20.jpg" alt="BBQ Chicken">
-                        <p>BBQ Chicken</p>
-                        <span>EGP 270</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">BBQ Chicken</p>
+                        <span class="item-price">EGP 270</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/21.jpg" alt="Chicken Tikka">
-                        <p>Chicken Tikka/p>
-                        <span>EGP 280</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Chicken Tikka/p>
+                        <span class="item-price">EGP 280</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/22.jpg" alt="Club">
-                        <p>Club</p>
-                        <span>EGP 310</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Club</p>
+                        <span class="item-price">EGP 310</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/23.jpg" alt="Mexican Fiesta">
-                        <p>Mexican Fiesta</p>
-                        <span>EGP 230</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Mexican Fiesta</p>
+                        <span class="item-price">EGP 230</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/24.jpg" alt="Something Meaty">
-                        <p>Something Meaty</p>
-                        <span>EGP 295</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Something Meaty</p>
+                        <span class="item-price">EGP 295</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     
                 </div>
@@ -300,38 +520,38 @@
                 <div class="menu2-items">
                     <div class="menu2-item">
                         <img src="./img2/1.jpg" alt="AQUAFINA">
-                        <p>AQUAFINA</p>
-                        <span>EGP 5</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">AQUAFINA</p>
+                        <span class="item-price">EGP 5</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu2-item">
                         <img src="./img2/2.jpg" alt="pepsi">
-                        <p>pepsi</p>
-                        <span>EGP 15</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">pepsi</p>
+                        <span class="item-price">EGP 15</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu2-item">
                         <img src="./img2/3.jpg" alt="7 UP">
-                        <p>7 UP</p>
-                        <span>EGP 15</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">7 UP</p>
+                        <span class="item-price">EGP 15</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu2-item">
                         <img src="./img2/4.jpg" alt="pepsi diet">
-                        <p>pepsi diet</p>
-                        <span>EGP 15</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">pepsi diet</p>
+                        <span class="item-price">EGP 15</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu2-item">
                         <img src="./img2/5.jpg" alt="Mirinda">
-                        <p>Mirinda</p>
-                        <span>EGP 15</span>
-                        <input type="number" min="0" max="100" value="0" class="qty" name="qty">
-                        <button>Add to Cart</button>
+                        <p class="item-name">Mirinda</p>
+                        <span class="item-price">EGP 15</span>
+                        <input type="number" min="1" max="100" value="1" class="qty" name="qty">
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                 <button class="scroll-right" onclick="scrollRight2()">&#8594;</button> <!-- سهم لليمين -->
             </div>
@@ -371,7 +591,7 @@
                     <div class="contact-info">
                         <div>
                             <h3>ADDRESS</h3>
-                            <p><i class="fa-solid fa-location-dot"></i> Aleasima Aladaria, Cairo, Egypt</p>
+                            <p><i class="fa-solid fa-location-dot"></i> New Administrative Capital Egypt</p>
                             <p><i class="fa-solid fa-phone"></i> Phone: 123456789</p>
                             <p><i class="fa-regular fa-envelope"></i> support@Pizza.com</p>
                         </div>
@@ -387,12 +607,25 @@
                             <a href="#"><i class="fa-brands fa-instagram"></i></a>
                         </div>
                     </div>
-                    <form action="contact_us.php" method="POST">
-                        <input type="text"  id="name" placeholder="Full Name" name="cname" required>
-                        <input type="email"  id="email" placeholder="Email Address" name="cemail" required>
-                        <textarea  id="message" cols="30" rows="5" placeholder="Message" name="cmessage"></textarea>
-                        <button type="submit" class="btn btn-third">SEND MESSAGE</button>
+                    <form id="contactForm" method="POST" action="contact_us.php">
+                        <input type="text" id="name" placeholder="Full Name" name="cname" required>
+                        <input type="email" id="email" placeholder="Email Address" name="cemail" required>
+                        <textarea id="address" cols="30" rows="2" placeholder="Address" name="caddress"></textarea>
+                        <textarea id="message" cols="30" rows="5" placeholder="Message" name="cmessage"></textarea>
+                        
+
+                       
+
+                        <!-- Hidden input to store the total price -->
+                        <input type="hidden" id="totalPriceInput" name="total_price" value="0">
+                    
+                        <!-- Hidden input to store the item count -->
+                        <input type="hidden" id="itemCountInput" name="item_count" value="0">
+                        
+                        <button id="sendMessageButton" type="submit" class="btn btn-third">Send Message</button>
                     </form>
+                    
+                                     
                     
                 </div>
             </div>
@@ -403,7 +636,7 @@
     <!---------------------------------------------------------------- footer Start -------------------------------------------------------------->
     <footer id="footer">
         <p> made by : <b> <a href="https://www.facebook.com/ali.fadloun.1?locale=ar_AR "
-                    target="_blank"> ALI FADLOUN</a> </b></p>
+                    target="_blank"> Ali Fadloun - Ebraam Raafat - Mohamed Onsy</a> </b></p>
     </footer>
     <!---------------------------------------------------------------- footer end -------------------------------------------------------------->
 
