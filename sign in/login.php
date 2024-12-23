@@ -24,13 +24,11 @@ if (mysqli_num_rows($result) > 0) {
     $stored_name = $row['names'];
 
     if (password_verify($password, $hashed_password)) {
-        // Setting session variables
         $_SESSION['user_email'] = $email;
         $_SESSION['user_name'] = $stored_name;
-
-        // Debugging
-        error_log("Login successful. User name set: " . $_SESSION['user_name']);
-
+        
+        error_log("Login successful - Setting session for user: " . $stored_name);
+        
         header("Location: ../index.html");
         exit();
     } else {

@@ -17,6 +17,47 @@
 
 
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, fetching session data...');
+        
+        // Fix for sendMessageButton error
+        const sendMessageButton = document.getElementById('sendMessageButton');
+        if (sendMessageButton) {
+            sendMessageButton.addEventListener('click', function(event) {
+                // Your existing sendMessageButton code
+            });
+        }
+        
+        // Fetch session data for greeting
+        fetch('./sign in/session.php')
+            .then(response => {
+                console.log('Raw response:', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Parsed data:', data);
+                
+                // Update all elements with class 'greeting'
+                const greetingElements = document.querySelectorAll('.greeting');
+                greetingElements.forEach(element => {
+                    if (data.name && data.name !== 'Guest') {
+                        console.log('Setting greeting for user:', data.name);
+                        element.innerText = `${data.name}`;
+                    } else {
+                        console.log('Setting guest greeting');
+                        element.innerText = 'Hello, Guest! Please log in.';
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                const greetingElements = document.querySelectorAll('.greeting');
+                greetingElements.forEach(element => {
+                    element.innerText = 'Error loading greeting.';
+                });
+            });
+    });
+    
     function addToCart(button) {
         const menuItem = button.closest('.menu-item') || button.closest('.menu2-item');
         const cartPopup = document.getElementById('cartPopup');
@@ -141,30 +182,6 @@
         }
     }
     
-    function loadUserName() {
-    fetch('get_user.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Fetched user data:', data);
-            if (data.name) {
-                document.getElementById('welcome-message').innerText = `Welcome ${data.name}!`;
-                document.getElementById('welcome-message-2').innerText = data.name;
-            } else {
-                document.getElementById('welcome-message').innerText = 'Please log in.';
-                document.getElementById('welcome-message-2').innerText = 'Guest';
-            }
-        })
-        .catch(error => console.error('Error fetching user data:', error));
-}
-
-window.onload = loadUserName;
-
-
     
     </script>
     <style>
@@ -235,8 +252,34 @@ window.onload = loadUserName;
         margin-right: 11px; /* مسافة بين الصورة والنص */
         }
 
+        .icons a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 5px;
+        }
 
+        .icons .greeting {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+        }
 
+        #user-btn {
+            margin-right: 5px;
+        }
+
+        .content h1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content h1 .greeting {
+            margin: 0;
+            padding: 0;
+            display: inline;
+        }
 
     </style>
 </head>
@@ -257,9 +300,11 @@ window.onload = loadUserName;
                 </ul>
             </div>
             <div class="icons">
-                <a href="./sign in/login.html"
-                    target="_blank"> <div id="user-btn" class="fas fa-user"></div></a>
-                    <p style="color: aliceblue; padding-left: 10px;" id="welcome-message-2">Loading...</p>
+                <a href="logout.php">Logout</a> 
+                <a href="./sign in/login.html" target="_blank" style="display: flex; align-items: center; gap: 5px;"> 
+                    <div id="user-btn" class="fas fa-user"></div>
+                    <p class="greeting">Loading greeting...</p>
+                </a>
             </div>
             
             <div class="cart-container">
@@ -267,7 +312,7 @@ window.onload = loadUserName;
                     <div id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
                 </button>
                 <div class="cart-popup" id="cartPopup">
-                    <h3>My Cart</h3>
+                    <h3>Cart</h3>
                     <ul id="cartItems"></ul>
                     <hr id="cartDivider"> <!-- إضافة خط بين العناصر والسعر الإجمالي -->
                     <p id="totalPrice">Total Price: EGP 0</p> <!-- عنصر لعرض السعر الإجمالي -->
@@ -281,9 +326,11 @@ window.onload = loadUserName;
         </div>
 
         <div class="content">
-            <h1 id="welcome-message">Loading...</h1>
-            <h1>Welcome To <span class="primary-text"> Pizza </span> Restaurant</h1>
-            <p> Here you can find Most delicacies food in the world </p>
+            <h1>Welcome <p class="greeting">Loading greeting...</p></h1>
+            
+
+            <h1>Welcome To <span class="primary-text">Pizza</span> Restaurant</h1>
+            <p>Here you can find Most delicacies food in the world</p>
             <a href="#menu" class="btn btn-primary">Book a Table</a>
         </div>
     </header>
@@ -291,7 +338,7 @@ window.onload = loadUserName;
     <!------------------------------------------------------------ main Start -------------------------------------------------------->
     <main>
         <section id="about">
-            <div class="container">                              <!-- كونتينر علشان المحتوي يكون في النص* -->
+            <div class="container">                              <!-- كونتينر علشن المحتوي يكون في النص* -->
 
                 <div class="title">
                     <h2>The Pizza history</h2>
@@ -334,7 +381,7 @@ window.onload = loadUserName;
         <section class="menu" id="menu">
             <h2>Our Menu</h2>
             <div class="menu-container">
-                <button class="scroll-left" onclick="scrollLeft9999()">&#8592;</button> <!-- سهم لليسار -->
+                <button class="scroll-left" onclick="scrollLeft9999()">&#8592;</button> <!-- سهم ليسار -->
                 <div class="menu-items">
                     <div class="menu-item">
                         <img src="./img3/1.jpg" alt="Mexican Fiesta">
@@ -377,7 +424,7 @@ window.onload = loadUserName;
                         <p class="item-name">Meaty Cheezy Triple-Decker®</p>
                         <span class="item-price">EGP 400</span>
                         <input type="number" min="1" max="100" value="1" class="qty" name="qty">
-                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>n>
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/7.jpg" alt="Real Deal Triple Decker® Chicken">
@@ -554,6 +601,71 @@ window.onload = loadUserName;
             </div>
         </section>
 
+
+
+
+        <section class="chefs" id="staf">
+            <h3>staf Of Restaurant</h3>
+            <div class="box-container">
+                <div class="box">
+                    <div class="image">
+                        <img src="./img4/pngwing.com (11).png" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Heston Blumenthal</h3>
+                    </div>
+    
+                </div>
+            
+                <div class="box">
+                    <div class="image">
+                        <img src="./img4/pngegg (2).png" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <h3>Evan Funke</h3>
+                    </div>
+
+                </div>
+            
+                <div class="box">
+                    <div class="image">
+                        <img src="./img4/pngwing.com (16).png" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <h3>Marco Pierre White</h3>
+                    </div>
+                   
+                </div>
+            </div>
+    
+
+
+
+
+
+        </section>
+
         <!------------------------------------------------------ menu Section End ------------------------------------------------------>
         <!----------------------------------------------------- Daytime section start----------------------------------------------------->
         <section id="daytime">
@@ -587,9 +699,6 @@ window.onload = loadUserName;
                 <div class="contact-content">
                     <div class="contact-info">
                         <div>
-                            <h1 >Contact Us</h1> 
-                            <p>feel free to contact us any time</p>
-                            <br>
                             <h3>ADDRESS</h3>
                             <p><i class="fa-solid fa-location-dot"></i> New Administrative Capital Egypt</p>
                             <p><i class="fa-solid fa-phone"></i> Phone: 123456789</p>
@@ -608,13 +717,10 @@ window.onload = loadUserName;
                         </div>
                     </div>
                     <form id="contactForm" method="POST" action="contact_us.php">
-                        <h1>Checkout The Order</h1>
-                        <br>
-                        <p style="color: #a7adb9;">fill your data</p>
                         <input type="text" id="name" placeholder="Full Name" name="cname" required>
                         <input type="email" id="email" placeholder="Email Address" name="cemail" required>
                         <textarea id="address" cols="30" rows="2" placeholder="Address" name="caddress"></textarea>
-                        <textarea id="message" cols="30" rows="5" placeholder="Message" name="cmessage"></textarea>
+                        <textarea id="message" cols="30" rows="5" placeholder="Comment" name="cmessage"></textarea>
                         
 
                        
@@ -625,7 +731,7 @@ window.onload = loadUserName;
                         <!-- Hidden input to store the item count -->
                         <input type="hidden" id="itemCountInput" name="item_count" value="0">
                         
-                        <button style="font-size: 15px;" id="sendMessageButton" type="submit" class="btn btn-third">Checkout The Order</button>
+                        <button id="sendMessageButton" type="submit" class="btn btn-third">Send Message</button>
                     </form>
                     
                                      

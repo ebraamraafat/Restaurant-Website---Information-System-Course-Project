@@ -45,8 +45,15 @@ function scrollRight() {
 }
 
 // إضافة أحداث النقر للأزرار
-document.querySelector('.scroll-left').addEventListener('click', scrollLeft);
-document.querySelector('.scroll-right').addEventListener('click', scrollRight);
+const scrollLeftButton = document.querySelector('.scroll-left');
+if (scrollLeftButton) {
+    scrollLeftButton.addEventListener('click', scrollLeft);
+}
+
+const scrollRightButton = document.querySelector('.scroll-right');
+if (scrollRightButton) {
+    scrollRightButton.addEventListener('click', scrollRight);
+}
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 function scrollLeft2() {
     console.log("Scroll left button clicked"); // تحقق مما إذا كانت الوظيفة تستدعي
@@ -70,7 +77,14 @@ function scrollRight2() {
 }
 
 // إضافة أحداث النقر للأزرار
-document.querySelector('.scroll-left2').addEventListener('click', scrollLeft2);
-document.querySelector('.scroll-right2').addEventListener('click', scrollRight2);
+const scrollLeftButton2 = document.querySelector('.scroll-left2');
+if (scrollLeftButton2) {
+    scrollLeftButton2.addEventListener('click', scrollLeft2);
+}
+
+const scrollRightButton2 = document.querySelector('.scroll-right2');
+if (scrollRightButton2) {
+    scrollRightButton2.addEventListener('click', scrollRight2);
+}
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
