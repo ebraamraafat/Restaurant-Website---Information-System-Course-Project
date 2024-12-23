@@ -45,7 +45,7 @@
                         element.innerText = `${data.name}`;
                     } else {
                         console.log('Setting guest greeting');
-                        element.innerText = 'Hello, Guest! Please log in.';
+                        element.innerText = 'Guest! Please log in.';
                     }
                 });
             })
@@ -281,6 +281,41 @@
             display: inline;
         }
 
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn i {
+            font-size: 1.2rem;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover i,
+        .auth-btn:hover span,
+        .auth-btn:hover .greeting {
+            color: #e4b95b;
+        }
+
+        .greeting {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .auth-btn {
+                padding: 6px 12px;
+            }
+            
+            .auth-btn i {
+                font-size: 1rem;
+            }
+        }
+
     </style>
 </head>
 
@@ -300,33 +335,41 @@
                 </ul>
             </div>
             <div class="icons">
-                <a href="logout.php">Logout</a> 
-                <a href="./sign in/login.html" target="_blank" style="display: flex; align-items: center; gap: 5px;"> 
-                    <div id="user-btn" class="fas fa-user"></div>
-                    <p class="greeting">Loading greeting...</p>
-                </a>
+                
+                
+                <div class="user-container" style="margin-left: 15px;">
+                    <a href="./sign in/login.html" class="auth-btn login-btn">
+                        <i class="fas fa-user"></i>
+                        <span class="greeting">Loading...</span>
+                    </a>
+                    <a href="logout.php" class="auth-btn logout-btn" style="margin-left: 10px;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
             </div>
             
             <div class="cart-container">
                 <button class="cart-icon" onclick="toggleCart()">
-                    <div id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
+                    <div id="cart-btn" class="fas fa-shopping-cart">
+                        <span class="cart-count">(0)</span>
+                    </div>
                 </button>
                 <div class="cart-popup" id="cartPopup">
-                    <h3>Cart</h3>
+                    <h3>Shopping Cart</h3>
                     <ul id="cartItems"></ul>
-                    <hr id="cartDivider"> <!-- إضافة خط بين العناصر والسعر الإجمالي -->
-                    <p id="totalPrice">Total Price: EGP 0</p> <!-- عنصر لعرض السعر الإجمالي -->
+                    <hr id="cartDivider">
+                    <p id="totalPrice">Total Price: EGP 0</p>
                     <a href="#contact">
-                        <button onclick="checkout()">Done</button>
+                        <button class="checkout-btn" onclick="checkout()">Checkout</button>
                     </a>
-                    
                 </div>
             </div>
 
         </div>
 
         <div class="content">
-            <h1>Welcome <p class="greeting">Loading greeting...</p></h1>
+            <h1>Hello <p class="greeting">Loading greeting...</p></h1>
             
 
             <h1>Welcome To <span class="primary-text">Pizza</span> Restaurant</h1>

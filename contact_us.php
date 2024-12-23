@@ -12,15 +12,13 @@ if (!$conn) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and get POST data
     $names = mysqli_real_escape_string($conn, $_POST['cname']);
     $address = mysqli_real_escape_string($conn, $_POST['caddress']);
     $email = mysqli_real_escape_string($conn, $_POST['cemail']);
     $message = mysqli_real_escape_string($conn, $_POST['cmessage']);
-    $price = mysqli_real_escape_string($conn, $_POST['total_price']); // Get the total price
-    $itemCount = mysqli_real_escape_string($conn, $_POST['item_count']); // Get the item count
+    $price = mysqli_real_escape_string($conn, $_POST['total_price']);
+    $itemCount = mysqli_real_escape_string($conn, $_POST['item_count']);
 
-    // Insert data into contact_us table
     $query = "INSERT INTO contact_us (names, email, message, address, price, item_count) 
               VALUES ('$names', '$email', '$message', '$address', '$price', '$itemCount')";
 

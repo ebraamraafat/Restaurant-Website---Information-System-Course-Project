@@ -88,3 +88,39 @@ if (scrollRightButton2) {
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
+document.addEventListener('DOMContentLoaded', function() {
+    const cartToggle = document.querySelector('.cart-toggle');
+    const cartDropdown = document.querySelector('.cart-dropdown');
+    
+    cartToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        cartDropdown.classList.toggle('active');
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!cartToggle.contains(e.target) && !cartDropdown.contains(e.target)) {
+            cartDropdown.classList.remove('active');
+        }
+    });
+});
+
+function updateCartCount() {
+    const cartItems = document.getElementById('cartItems');
+    const cartCount = document.querySelector('.cart-count');
+    cartCount.textContent = cartItems.children.length;
+}
+
+function updateTotalPrice() {
+    const cartItems = document.getElementById('cartItems').children;
+    let total = 0;
+    
+    Array.from(cartItems).forEach(item => {
+        const priceText = item.textContent.match(/EGP (\d+)/);
+        if (priceText && priceText[1]) {
+            total += parseInt(priceText[1]);
+        }
+    });
+    
+    document.getElementById('totalPrice').textContent = `EGP ${total}`;
+}
+
