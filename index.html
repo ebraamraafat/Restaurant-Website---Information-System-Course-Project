@@ -267,7 +267,7 @@ window.onload = loadUserName;
                     <div id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
                 </button>
                 <div class="cart-popup" id="cartPopup">
-                    <h3>Cart</h3>
+                    <h3>My Cart</h3>
                     <ul id="cartItems"></ul>
                     <hr id="cartDivider"> <!-- إضافة خط بين العناصر والسعر الإجمالي -->
                     <p id="totalPrice">Total Price: EGP 0</p> <!-- عنصر لعرض السعر الإجمالي -->
@@ -281,10 +281,7 @@ window.onload = loadUserName;
         </div>
 
         <div class="content">
-            <p id="welcome-message-2">Loading...</p>
             <h1 id="welcome-message">Loading...</h1>
-
-
             <h1>Welcome To <span class="primary-text"> Pizza </span> Restaurant</h1>
             <p> Here you can find Most delicacies food in the world </p>
             <a href="#menu" class="btn btn-primary">Book a Table</a>
@@ -590,6 +587,9 @@ window.onload = loadUserName;
                 <div class="contact-content">
                     <div class="contact-info">
                         <div>
+                            <h1 >Contact Us</h1> 
+                            <p>feel free to contact us any time</p>
+                            <br>
                             <h3>ADDRESS</h3>
                             <p><i class="fa-solid fa-location-dot"></i> New Administrative Capital Egypt</p>
                             <p><i class="fa-solid fa-phone"></i> Phone: 123456789</p>
@@ -608,6 +608,9 @@ window.onload = loadUserName;
                         </div>
                     </div>
                     <form id="contactForm" method="POST" action="contact_us.php">
+                        <h1>Checkout The Order</h1>
+                        <br>
+                        <p style="color: #a7adb9;">fill your data</p>
                         <input type="text" id="name" placeholder="Full Name" name="cname" required>
                         <input type="email" id="email" placeholder="Email Address" name="cemail" required>
                         <textarea id="address" cols="30" rows="2" placeholder="Address" name="caddress"></textarea>
@@ -622,7 +625,7 @@ window.onload = loadUserName;
                         <!-- Hidden input to store the item count -->
                         <input type="hidden" id="itemCountInput" name="item_count" value="0">
                         
-                        <button id="sendMessageButton" type="submit" class="btn btn-third">Send Message</button>
+                        <button style="font-size: 15px;" id="sendMessageButton" type="submit" class="btn btn-third">Checkout The Order</button>
                     </form>
                     
                                      
