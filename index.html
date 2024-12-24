@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">   <!-- للتغيير مع حجم الشاشة -->
     <title>Pizza</title>
     <!-- Style Link -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
     
     <!-- Fontawsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
@@ -14,122 +14,198 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="./logo.ico">
-
-
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded, fetching session data...');
-        
-        // Fix for sendMessageButton error
-        const sendMessageButton = document.getElementById('sendMessageButton');
-        if (sendMessageButton) {
-            sendMessageButton.addEventListener('click', function(event) {
-                // Your existing sendMessageButton code
-            });
-        }
-        
-        // Fetch session data for greeting
-        fetch('./sign in/session.php')
-            .then(response => {
-                console.log('Raw response:', response);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Parsed data:', data);
-                
-                // Update all elements with class 'greeting'
-                const greetingElements = document.querySelectorAll('.greeting');
-                greetingElements.forEach(element => {
-                    if (data.name && data.name !== 'Guest') {
-                        console.log('Setting greeting for user:', data.name);
-                        element.innerText = `${data.name}`;
-                    } else {
-                        console.log('Setting guest greeting');
-                        element.innerText = 'Guest! Please log in.';
+        function loadUserName() {
+            fetch('get_user.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                });
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                const greetingElements = document.querySelectorAll('.greeting');
-                greetingElements.forEach(element => {
-                    element.innerText = 'Error loading greeting.';
-                });
-            });
-    });
-    
-    function addToCart(button) {
-        const menuItem = button.closest('.menu-item') || button.closest('.menu2-item');
-        const cartPopup = document.getElementById('cartPopup');
-    
-        const itemName = menuItem.querySelector('.item-name').textContent;
-        const qtyInput = menuItem.querySelector('.qty');
-        const quantity = parseInt(qtyInput.value);
-        const itemPrice = menuItem.querySelector('.item-price').textContent.replace('EGP', '').trim();
-        const itemImage = menuItem.querySelector('img').src;
-    
-        if (quantity <= 0 || isNaN(quantity)) {
-            alert("Please select a valid quantity!");
-            return;
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Fetched user data:', data);
+                    const logoutBtn = document.querySelector('.logout-btn');
+                    
+                    if (data.name) {
+                        // User is logged in
+                        document.getElementById('welcome-message').innerText = `Welcome ${data.name}!`;
+                        document.getElementById('welcome-message-2').innerText = data.name;
+                        logoutBtn.style.display = 'flex'; // Show logout button
+                    } else {
+                        // User is a guest
+                        document.getElementById('welcome-message').innerText = 'Please log in.';
+                        document.getElementById('welcome-message-2').innerText = 'Guest';
+                        logoutBtn.style.display = 'none'; // Hide logout button
+                    }
+                })
+                .catch(error => console.error('Error fetching user data:', error));
         }
-    
-        const cartItems = document.getElementById('cartItems');
-        const newCartItem = document.createElement('li');
-    
-        const productImage = document.createElement('img');
-        productImage.src = itemImage;
-        productImage.alt = itemName;
-        productImage.style.width = '50px';
-        productImage.style.height = '50px';
-    
-        const cartItemText = document.createElement('span');
-        cartItemText.textContent = `${itemName} - Quantity: ${quantity} - Price: EGP ${itemPrice * quantity}`;
-    
-        // Create delete button
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.style.marginLeft = '40px';
-        deleteButton.onclick = function () {
-            cartItems.removeChild(newCartItem); // Remove the item from the cart
-            updateCartCount(); // Update item count
-            updateTotalPrice(); // Update total price
-        };
-    
-        newCartItem.appendChild(productImage);
-        newCartItem.appendChild(cartItemText);
-        newCartItem.appendChild(deleteButton);
-        cartItems.appendChild(newCartItem);
-    
-        if (cartItems.children.length > 0) {
-            cartPopup.style.display = 'block';
+
+        window.onload = loadUserName;
+
+        function addToCart(button) {
+            const menuItem = button.closest('.menu-item') || button.closest('.menu2-item');
+            
+            const cartPopup = document.getElementById('cartPopup');
+            
+            const itemName = menuItem.querySelector('.item-name').textContent;
+            const qtyInput = menuItem.querySelector('.qty');
+            const quantity = parseInt(qtyInput.value);
+            const itemPrice = parseFloat(menuItem.querySelector('.item-price').textContent.replace('EGP', '').trim());
+            const itemImage = menuItem.querySelector('img').src;
+
+            if (quantity <= 0 || isNaN(quantity)) {
+                alert("Please select a valid quantity!");
+                return;
+            }
+
+            // Save to localStorage for cart.html
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            const newItem = {
+                name: itemName,
+                price: itemPrice,
+                quantity: quantity,
+                image: itemImage,
+                total: itemPrice * quantity
+            };
+            
+            cart.push(newItem);
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Update floating cart
+            const cartItems = document.getElementById('cartItems');
+            const newCartItem = document.createElement('li');
+            
+            const productImage = document.createElement('img');
+            productImage.src = itemImage;
+            productImage.alt = itemName;
+            productImage.style.width = '50px';
+            productImage.style.height = '50px';
+
+            const cartItemText = document.createElement('span');
+            cartItemText.textContent = `${itemName} - Quantity: ${quantity} - Price: EGP ${itemPrice * quantity}`;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.style.marginLeft = '40px';
+            deleteButton.onclick = function() {
+                cartItems.removeChild(newCartItem);
+                // Also remove from localStorage
+                let updatedCart = cart.filter(item => item.name !== itemName);
+                localStorage.setItem('cart', JSON.stringify(updatedCart));
+                updateCartCount();
+                updateTotalPrice();
+            };
+
+            newCartItem.appendChild(productImage);
+            newCartItem.appendChild(cartItemText);
+            newCartItem.appendChild(deleteButton);
+            cartItems.appendChild(newCartItem);
+
+            const cartCount = document.getElementById('cart-btn').querySelector('span');
+            cartCount.textContent = `(${cartItems.children.length})`;
+
+            if (cartItems.children.length > 0) {
+                cartPopup.style.display = 'block';
+            }
+
+            updateTotalPrice();
+            qtyInput.value = 1; // Reset quantity
         }
-    
-        updateCartCount();  // Update item count after adding an item
-        updateTotalPrice(); // Update total price after adding an item
-    }
-    
-    function updateTotalPrice() {
-        const cartItems = document.getElementById('cartItems');
-        let totalPrice = 0;
-    
-        for (let item of cartItems.children) {
-            const priceText = item.querySelector('span').textContent;
-            const priceMatch = priceText.match(/EGP (\d+)/);
-            if (priceMatch) {
-                totalPrice += parseFloat(priceMatch[1]);
+
+        function updateTotalPrice() {
+            const cartItems = document.getElementById('cartItems');
+            let totalPrice = 0;
+            for (let item of cartItems.children) {
+                const priceText = item.querySelector('span').textContent;
+                const priceMatch = priceText.match(/EGP (\d+)/);
+                if (priceMatch) {
+                    totalPrice += parseFloat(priceMatch[1]);
+                }
+            }
+
+            const totalPriceElement = document.getElementById('totalPrice');
+            totalPriceElement.textContent = `Total Price: EGP ${totalPrice}`;
+        }
+
+        function updateCartCount() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cart-btn').querySelector('span');
+            cartCount.textContent = `(${cartItems.children.length})`;
+        }
+
+        function toggleCart() {
+            const cartPopup = document.getElementById('cartPopup');
+            if (cartPopup.style.display === 'none' || cartPopup.style.display === '') {
+                cartPopup.style.display = 'block';
+            } else {
+                cartPopup.style.display = 'none';
             }
         }
-    
-        const totalPriceElement = document.getElementById('totalPrice');
-        totalPriceElement.textContent = `Total Price: EGP ${totalPrice}`;
-    
-        // Update the hidden input with the total price
-        document.getElementById('totalPriceInput').value = totalPrice;
-    
-        return totalPrice;
-    }
-    
-    document.getElementById('sendMessageButton').addEventListener('click', function (event) {
+
+        // Initialize cart on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItems = document.getElementById('cartItems');
+            
+            // Display existing cart items
+            cart.forEach(item => {
+                const newCartItem = document.createElement('li');
+                
+                const productImage = document.createElement('img');
+                productImage.src = item.image;
+                productImage.alt = item.name;
+                productImage.style.width = '50px';
+                productImage.style.height = '50px';
+
+                const cartItemText = document.createElement('span');
+                cartItemText.textContent = `${item.name} - Quantity: ${item.quantity} - Price: EGP ${item.total}`;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.style.marginLeft = '40px';
+                deleteButton.onclick = function() {
+                    cartItems.removeChild(newCartItem);
+                    let updatedCart = cart.filter(cartItem => cartItem.name !== item.name);
+                    localStorage.setItem('cart', JSON.stringify(updatedCart));
+                    updateCartCount();
+                    updateTotalPrice();
+                };
+
+                newCartItem.appendChild(productImage);
+                newCartItem.appendChild(cartItemText);
+                newCartItem.appendChild(deleteButton);
+                cartItems.appendChild(newCartItem);
+            });
+
+            updateCartCount();
+            updateTotalPrice();
+        });
+
+        function navigateToContact() {
+            // Close the cart popup
+            document.getElementById('cartPopup').style.display = 'none';
+            
+            // Get cart data
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Calculate total price and item count
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Set the hidden input values in the contact form
+            document.getElementById('total_price').value = totalPrice;
+            document.getElementById('item_count').value = totalItems;
+            
+            // Navigate to contact section
+            const contactSection = document.getElementById('contact');
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        document.getElementById('sendMessageButton').addEventListener('click', function (event) {
         event.preventDefault(); // Prevent default form submission
     
         // Ensure the total price and item count are updated
@@ -156,165 +232,124 @@
                 console.error('Error:', error);
             });
     });
-    
-    function updateCartCount() {
-        const cartItems = document.getElementById('cartItems');
-        const cartCount = document.getElementById('cart-btn').querySelector('span');
-        const itemCount = cartItems.children.length;
-    
-        cartCount.textContent = `(${itemCount})`;
-    
-        // Update the hidden input field with the item count
-        document.getElementById('itemCountInput').value = itemCount;
-    
-        // Debugging: Log the item count
-        console.log('Item count:', itemCount);
-    }
-    
-    function toggleCart() {
-        const cartPopup = document.getElementById('cartPopup');
-    
-        // Toggle cart visibility
-        if (cartPopup.style.display === 'none' || cartPopup.style.display === '') {
-            cartPopup.style.display = 'block';
-        } else {
-            cartPopup.style.display = 'none';
-        }
-    }
-    
-    
     </script>
     <style>
 
-        .cart-container {
-        position: relative;
-        top: -2px;
-        right: 20px;
-        z-index: 1000;
-        }
+        
+.cart-container {
+  position: relative;
+  top: -2px;
+  right: 20px;
+  z-index: 1000;
+}
 
-        .cart-icon {
-        background-color: #ff5733;
-        color: white;
-        font-size: 20px;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        border-radius: 5px;
-        }
+.cart-icon {
+  background-color: #ff5733;
+  color: white;
+  font-size: 20px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
-        .cart-popup {
-        position: absolute;
-        top: 40px;
-        right: 0;
-        width: 350px;
-        background-color: rgb(244, 219, 219);
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        display: none;
-        flex-direction: column;
-        }
+.cart-popup {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 350px;
+  background-color: rgb(244, 219, 219);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  display: none;
+  flex-direction: column;
+}
 
-        .cart-popup h3 {
-        margin-bottom: 20px;
-        }
+.cart-popup h3 {
+  margin-bottom: 20px;
+}
 
-        .cart-popup ul {
-        list-style: none;
-        padding: 0;
-        }
+.cart-popup ul {
+  list-style: none;
+  padding: 0;
+}
 
-        .cart-popup ul li {
-        margin-bottom: 10px;
-        }
+.cart-popup ul li {
+  margin-bottom: 10px;
+}
 
-        .cart-popup button {
-        margin-top: 20px;
-        background-color: #ff5733;
-        color: white;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        }
+.cart-popup button {
+  margin-top: 20px;
+  background-color: #ff5733;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
-        .cart-popup button:hover {
-        background-color: #e64a19;
-        }
+.cart-popup button:hover {
+  background-color: #e64a19;
+}
 
-        #cartItems li {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-        }
+#cartItems li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-        #cartItems li img {
-        margin-right: 11px; /* مسافة بين الصورة والنص */
-        }
+#cartItems li img {
+  margin-right: 11px; /* مسافة بين الصورة والنص */
+}
 
-        .icons a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            gap: 5px;
-        }
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
 
-        .icons .greeting {
-            margin: 0;
-            padding: 0;
-            display: inline-block;
-        }
+.user-container {
+    display: flex;
+    align-items: center;
+}
 
-        #user-btn {
-            margin-right: 5px;
-        }
+.auth-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
 
-        .content h1 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+.user-icon {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .content h1 .greeting {
-            margin: 0;
-            padding: 0;
-            display: inline;
-        }
+.auth-btn i {
+    font-size: 16px;
+}
 
-        .auth-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-            transition: all 0.3s ease;
-        }
+.auth-btn:hover .user-icon {
+    background: rgba(255, 255, 255, 0.2);
+}
 
-        .auth-btn i {
-            font-size: 1.2rem;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
+#welcome-message-2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
 
-        .auth-btn:hover i,
-        .auth-btn:hover span,
-        .auth-btn:hover .greeting {
-            color: #e4b95b;
-        }
-
-        .greeting {
-            color: #fff;
-            font-weight: 500;
-        }
-
-        @media (max-width: 768px) {
-            .auth-btn {
-                padding: 6px 12px;
-            }
-            
-            .auth-btn i {
-                font-size: 1rem;
-            }
-        }
+.login-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
 
     </style>
 </head>
@@ -335,53 +370,48 @@
                 </ul>
             </div>
             <div class="icons">
-                
-                
-                <div class="user-container" style="margin-left: 15px;">
-                    <a href="./sign in/login.html" class="auth-btn login-btn">
-                        <i class="fas fa-user"></i>
-                        <span class="greeting">Loading...</span>
-                    </a>
-                    <a href="logout.php" class="auth-btn logout-btn" style="margin-left: 10px;">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
+                <a href="logout.php" class="auth-btn logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a> 
+                <div class="user-container">
+                    <a style="margin-right: 40px;" href="./sign in/login.html" class="auth-btn login-btn" target="_blank">
+                        <div class="user-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <p id="welcome-message-2">Loading...</p>
                     </a>
                 </div>
             </div>
             
             <div class="cart-container">
                 <button class="cart-icon" onclick="toggleCart()">
-                    <div id="cart-btn" class="fas fa-shopping-cart">
-                        <span class="cart-count">(0)</span>
-                    </div>
-                </button>
+                    <div id="cart-btn" class="fas fa-shopping-cart"><span>(0)</span></div>
+                </button>   
                 <div class="cart-popup" id="cartPopup">
-                    <h3>Shopping Cart</h3>
+                    <h3>Cart</h3>
                     <ul id="cartItems"></ul>
-                    <hr id="cartDivider">
-                    <p id="totalPrice">Total Price: EGP 0</p>
-                    <a href="#contact">
-                        <button class="checkout-btn" onclick="checkout()">Checkout</button>
-                    </a>
+                    <hr id="cartDivider"> <!-- إضافة خط بين العناصر والسعر الإجمالي -->
+                    <p id="totalPrice">Total Price: EGP 0</p> <!-- عنصر لعرض السعر الإجمالي -->
+                    <button onclick="navigateToContact()">Done</button>
                 </div>
             </div>
 
         </div>
 
         <div class="content">
-            <h1>Hello <p class="greeting">Loading greeting...</p></h1>
-            
+            <h1 id="welcome-message">Loading...</h1>
 
-            <h1>Welcome To <span class="primary-text">Pizza</span> Restaurant</h1>
-            <p>Here you can find Most delicacies food in the world</p>
-            <a href="#menu" class="btn btn-primary">Book a Table</a>
+            <h1>Welcome To <span class="primary-text"> Pizza </span> Restaurant</h1>
+            <p> Here you can find Most delicacies food in the world </p>
+            <a href="#menu" class="btn btn-primary">Place an order</a>
         </div>
     </header>
     <!------------------------------------------------------------ Header End ------------------------------------------------------------->
     <!------------------------------------------------------------ main Start -------------------------------------------------------->
     <main>
         <section id="about">
-            <div class="container">                              <!-- كونتينر علشن المحتوي يكون في النص* -->
+            <div class="container">                              <!-- كونتينر علشان المحتوي يكون في النص* -->
 
                 <div class="title">
                     <h2>The Pizza history</h2>
@@ -424,7 +454,7 @@
         <section class="menu" id="menu">
             <h2>Our Menu</h2>
             <div class="menu-container">
-                <button class="scroll-left" onclick="scrollLeft9999()">&#8592;</button> <!-- سهم ليسار -->
+                <button class="scroll-left" onclick="scrollLeft9999()">&#8592;</button> <!-- سهم لليسار -->
                 <div class="menu-items">
                     <div class="menu-item">
                         <img src="./img3/1.jpg" alt="Mexican Fiesta">
@@ -467,7 +497,7 @@
                         <p class="item-name">Meaty Cheezy Triple-Decker®</p>
                         <span class="item-price">EGP 400</span>
                         <input type="number" min="1" max="100" value="1" class="qty" name="qty">
-                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>
+                        <button class="add-to-cart" onclick="addToCart(this)">Add to Cart</button>n>
                     </div>
                     <div class="menu-item">
                         <img src="./img3/7.jpg" alt="Real Deal Triple Decker® Chicken">
@@ -644,11 +674,8 @@
             </div>
         </section>
 
-
-
-
         <section class="chefs" id="staf">
-            <h3>staf Of Restaurant</h3>
+            <h3>Staff Of Restaurant</h3>
             <div class="box-container">
                 <div class="box">
                     <div class="image">
@@ -709,6 +736,7 @@
 
         </section>
 
+
         <!------------------------------------------------------ menu Section End ------------------------------------------------------>
         <!----------------------------------------------------- Daytime section start----------------------------------------------------->
         <section id="daytime">
@@ -743,7 +771,7 @@
                     <div class="contact-info">
                         <div>
                             <h3>ADDRESS</h3>
-                            <p><i class="fa-solid fa-location-dot"></i> New Administrative Capital Egypt</p>
+                            <p><i class="fa-solid fa-location-dot"></i> Aleasima Aladaria, Cairo, Egypt</p>
                             <p><i class="fa-solid fa-phone"></i> Phone: 123456789</p>
                             <p><i class="fa-regular fa-envelope"></i> support@Pizza.com</p>
                         </div>
@@ -759,25 +787,16 @@
                             <a href="#"><i class="fa-brands fa-instagram"></i></a>
                         </div>
                     </div>
-                    <form id="contactForm" method="POST" action="contact_us.php">
-                        <input type="text" id="name" placeholder="Full Name" name="cname" required>
-                        <input type="email" id="email" placeholder="Email Address" name="cemail" required>
-                        <textarea id="address" cols="30" rows="2" placeholder="Address" name="caddress"></textarea>
-                        <textarea id="message" cols="30" rows="5" placeholder="Comment" name="cmessage"></textarea>
-                        
-
-                       
-
-                        <!-- Hidden input to store the total price -->
-                        <input type="hidden" id="totalPriceInput" name="total_price" value="0">
-                    
-                        <!-- Hidden input to store the item count -->
-                        <input type="hidden" id="itemCountInput" name="item_count" value="0">
-                        
-                        <button id="sendMessageButton" type="submit" class="btn btn-third">Send Message</button>
+                    <form action="contact_us.php" method="POST">
+                        <input type="text"  id="name" placeholder="Full Name" name="cname" required>
+                        <input type="email"  id="email" placeholder="Email Address" name="cemail" required>
+                        <input type="number"  id="number" placeholder="Number" name="cnum" required>
+                        <textarea  id="address" cols="30" rows="3" placeholder="Address" name="caddress"></textarea>
+                        <textarea  id="message" cols="30" rows="5" placeholder="Comment" name="cmessage"></textarea>
+                        <input type="hidden" name="total_price" id="total_price" value="0">
+                        <input type="hidden" name="item_count" id="item_count" value="0">
+                        <button type="submit" class="btn btn-third">SEND MESSAGE</button>
                     </form>
-                    
-                                     
                     
                 </div>
             </div>
@@ -788,7 +807,7 @@
     <!---------------------------------------------------------------- footer Start -------------------------------------------------------------->
     <footer id="footer">
         <p> made by : <b> <a href="https://www.facebook.com/ali.fadloun.1?locale=ar_AR "
-                    target="_blank"> Ali Fadloun - Ebraam Raafat - Mohamed Onsy</a> </b></p>
+                    target="_blank"> ALI FADLOUN</a> </b></p>
     </footer>
     <!---------------------------------------------------------------- footer end -------------------------------------------------------------->
 

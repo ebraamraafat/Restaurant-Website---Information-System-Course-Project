@@ -129,140 +129,22 @@ header {
 .icons {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding-right: 20px;
-}
-
-.cart-icon-container {
-  position: relative;
-}
-
-.cart-toggle {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 8px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.cart-toggle:hover {
-  background: rgba(228, 185, 91, 0.2);
-}
-
-.cart-count {
-  background: #e4b95b;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 50%;
-  font-size: 0.8rem;
-  position: absolute;
-  top: -5px;
-  right: -5px;
-}
-
-.cart-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  width: 300px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  padding: 15px;
-  display: none;
-  z-index: 1000;
-}
-
-.cart-dropdown.active {
-  display: block;
-}
-
-.cart-dropdown h3 {
-  color: #383848;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-#cartItems {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-#cartItems li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.cart-total {
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 2px solid #eee;
-  font-weight: bold;
-  color: #383848;
-}
-
-.checkout-btn {
-  width: 100%;
-  padding: 12px;
-  background: #e4b95b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  margin-top: 10px;
+  justify-content: center;     /*اعملها في النص*/
+  height: 100px;
+  width: 22%;
+  font-size: 1.4rem;
+  color:var(--light-color);
   cursor: pointer;
-  transition: all 0.3s ease;
+  background-color: #82aa0a00;
+
 }
 
-.checkout-btn:hover {
-  background: #383848;
+.icons .fas {
+  color: white;            /* تغيير اللون إلى الأبيض */
+  margin-left: 20px;       /* مسافة بين الأيقونات */
 }
-
-.user-container {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.login-btn, .logout-btn {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 8px 11px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.login-btn:hover, .logout-btn:hover {
-  background: rgba(228, 185, 91, 0.2);
-}
-
-.login-btn i, .logout-btn i {
-  font-size: 1.2rem;
-}
-
-.greeting {
-  font-weight: 600;
-  color: #fff;
-}
-
-@media (max-width: 768px) {
-  .cart-dropdown {
-    width: 280px;
-    right: -50px;
-  }
-  
-  .login-btn, .logout-btn {
-    padding: 6px 10px;
-  }
-  
-  .greeting {
-    font-size: 0.9rem;
-  }
+.icons div:hover{
+  color:#f6b221;
 }
 
 /* -------------------------------- */

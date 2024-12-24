@@ -12,18 +12,28 @@ if (!$conn) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize and get POST data
     $names = mysqli_real_escape_string($conn, $_POST['cname']);
     $address = mysqli_real_escape_string($conn, $_POST['caddress']);
     $email = mysqli_real_escape_string($conn, $_POST['cemail']);
     $message = mysqli_real_escape_string($conn, $_POST['cmessage']);
-    $price = mysqli_real_escape_string($conn, $_POST['total_price']);
-    $itemCount = mysqli_real_escape_string($conn, $_POST['item_count']);
+    $number = mysqli_real_escape_string($conn, $_POST['cnum']);
 
-    $query = "INSERT INTO contact_us (names, email, message, address, price, item_count) 
-              VALUES ('$names', '$email', '$message', '$address', '$price', '$itemCount')";
+    
+    // Get and sanitize price and item count
+    $price = floatval($_POST['total_price']); // Convert to float
+    $itemCount = intval($_POST['item_count']); // Convert to integer
+
+    // Insert data into contact_us table
+    $query = "INSERT INTO contact_us (names, email, message, address, price, item_count ,phone) 
+              VALUES ('$names', '$email', '$message', '$address', $price, $itemCount ,$number)";
 
     if (mysqli_query($conn, $query)) {
-        header("Location: index.html");
+        // Clear the cart after successful submission
+        echo "<script>
+            localStorage.removeItem('cart');
+            window.location.href = 'index.html';
+        </script>";
     } else {
         echo "Error: " . mysqli_error($conn);
     }

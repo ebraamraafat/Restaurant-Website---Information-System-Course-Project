@@ -45,15 +45,8 @@ function scrollRight() {
 }
 
 // إضافة أحداث النقر للأزرار
-const scrollLeftButton = document.querySelector('.scroll-left');
-if (scrollLeftButton) {
-    scrollLeftButton.addEventListener('click', scrollLeft);
-}
-
-const scrollRightButton = document.querySelector('.scroll-right');
-if (scrollRightButton) {
-    scrollRightButton.addEventListener('click', scrollRight);
-}
+document.querySelector('.scroll-left').addEventListener('click', scrollLeft);
+document.querySelector('.scroll-right').addEventListener('click', scrollRight);
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 function scrollLeft2() {
     console.log("Scroll left button clicked"); // تحقق مما إذا كانت الوظيفة تستدعي
@@ -77,50 +70,7 @@ function scrollRight2() {
 }
 
 // إضافة أحداث النقر للأزرار
-const scrollLeftButton2 = document.querySelector('.scroll-left2');
-if (scrollLeftButton2) {
-    scrollLeftButton2.addEventListener('click', scrollLeft2);
-}
-
-const scrollRightButton2 = document.querySelector('.scroll-right2');
-if (scrollRightButton2) {
-    scrollRightButton2.addEventListener('click', scrollRight2);
-}
+document.querySelector('.scroll-left2').addEventListener('click', scrollLeft2);
+document.querySelector('.scroll-right2').addEventListener('click', scrollRight2);
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
-
-document.addEventListener('DOMContentLoaded', function() {
-    const cartToggle = document.querySelector('.cart-toggle');
-    const cartDropdown = document.querySelector('.cart-dropdown');
-    
-    cartToggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        cartDropdown.classList.toggle('active');
-    });
-    
-    document.addEventListener('click', function(e) {
-        if (!cartToggle.contains(e.target) && !cartDropdown.contains(e.target)) {
-            cartDropdown.classList.remove('active');
-        }
-    });
-});
-
-function updateCartCount() {
-    const cartItems = document.getElementById('cartItems');
-    const cartCount = document.querySelector('.cart-count');
-    cartCount.textContent = cartItems.children.length;
-}
-
-function updateTotalPrice() {
-    const cartItems = document.getElementById('cartItems').children;
-    let total = 0;
-    
-    Array.from(cartItems).forEach(item => {
-        const priceText = item.textContent.match(/EGP (\d+)/);
-        if (priceText && priceText[1]) {
-            total += parseInt(priceText[1]);
-        }
-    });
-    
-    document.getElementById('totalPrice').textContent = `EGP ${total}`;
-}
 
