@@ -17,3 +17,4 @@ if (isset($_SESSION['user_name'])) {
     echo json_encode(['name' => 'Guest']);
 }
 ?>
+ 

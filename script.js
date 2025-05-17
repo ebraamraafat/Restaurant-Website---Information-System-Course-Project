@@ -3,7 +3,7 @@ const headerBackgrounds = [
     "./img/home_bg2.jpg",
     "./img/home_bg3.jpg",
     "./img/home_bg4.jpg",
-    "./img/home_bg5.jpg",
+    "./img/home_bg5.jpg", 
     "./img/home_bg6.jpg",
     "./img/home_bg7.jpg",
     "./img/home_bg8.jpg",

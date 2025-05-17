@@ -11,7 +11,7 @@ $conn = mysqli_connect($host, $user_db, $pass_db, $name_db);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
+ 
 
 $names = mysqli_real_escape_string($conn, $_POST['name']);
 $surnames = mysqli_real_escape_string($conn, $_POST['surname']);

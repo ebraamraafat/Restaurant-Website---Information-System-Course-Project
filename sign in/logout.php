@@ -10,3 +10,4 @@ session_destroy();  // Destroys the session
 header("Location: login.html");
 exit();
 ?>
+ 

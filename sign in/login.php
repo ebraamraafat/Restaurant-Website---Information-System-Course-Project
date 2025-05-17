@@ -6,7 +6,7 @@ $host = 'localhost';
 $user_db = 'root';
 $pass_db = '';
 $name_db = 'myrestaurant';
-
+ 
 $conn = mysqli_connect($host, $user_db, $pass_db, $name_db);
 
 if (!$conn) {

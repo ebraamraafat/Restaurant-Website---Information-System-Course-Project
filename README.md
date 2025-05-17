@@ -1,11 +1,11 @@
 ![Project Screenshot](SS/Screenshot%202024-12-01%20153504.png)
 
-# Restaurant Website - Information System Course Project
+# Restaurant Website  
 
-This project is a dynamic **Restaurant Website** developed as part of an **Information System course**. It features a modern and responsive design, offering users a seamless interaction and functionality. The website includes a registration page integrated with a MySQL database using **XAMPP**.
+This project is a dynamic **Restaurant Website**  It features a modern and responsive design, offering users a seamless interaction and functionality. The website includes a registration page integrated with a MySQL database using **XAMPP**.
 
 ## Project Overview
-
+ 
 The website is designed to enhance the dining experience by providing a simple yet functional interface for users to register and interact with the restaurant. It is built using modern web technologies, and the back-end is supported by **MySQL** and **XAMPP** for database management.
 
 ![Project Screenshot](SS/Screenshot%202024-12-01%20152800.png)
@@ -32,14 +32,7 @@ Below is a screenshot of the website:
 
 Feel free to explore the code and contribute! If you have any suggestions or improvements, please open an issue or submit a pull request.
 
-## License
+ 
 
-This project is licensed under the Modern Academy License 
-
-## Team Members
-
-This project was developed as part of the **Information System course** by the following team members:
-
-- **Ebraam Raafat Hanna** (Code: 4230410)
-- **Ali Ahmed Ali Fadloun** (Code: 4230170)
-- **Mohamed Ahmed Mohamed Ahmed Onsy** (Code: 4230166)
+-Under supervision : **Ebraam Raafat Hanna**  
+ 
